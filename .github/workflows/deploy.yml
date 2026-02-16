@@ -10,7 +10,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: examen  # 👈 desde la carpeta examen
+        working-directory: examen
 
     steps:
       - uses: actions/checkout@v4
@@ -21,10 +21,13 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install  # npm ci daba errores si no hay package-lock
+        run: npm install
 
       - name: Build Angular
         run: npm run build -- --configuration production
+
+      - name: Verify dist content
+        run: ls -la dist/examen
 
       - name: Deploy to VPS via SSH
         uses: appleboy/scp-action@v0.1.7
@@ -32,6 +35,6 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          source: "dist/examen/*"   # 👈 carpeta correcta, elimina "browser"
+          source: "dist/examen/*"
           target: ${{ secrets.VPS_PATH }}
-          rm: true                  # 👈 limpia antes de copiar
+          rm: true
