@@ -15,21 +15,25 @@ jobs:
         with:
           node-version: "20"
 
-      - run: npm ci
-      - run: npm run build -- --configuration production
+      - name: Install dependencies
+        run: npm install
+        working-directory: examen
+
+      - name: Build Angular
+        run: npm run build -- --configuration production
+        working-directory: examen
 
       - name: Inspect dist
         run: |
-          ls -la dist
-          ls -la dist/* || true
-          ls -la dist/*/browser || true
+          ls -la examen/dist
+          ls -la examen/dist/* || true
+          ls -la examen/dist/*/browser || true
 
-      # AJUSTA EL path cuando veas la estructura en logs
       - name: Deploy via rsync
         uses: burnett01/rsync-deployments@7.0.1
         with:
           switches: -avzr --delete
-          path: dist/examen/browser/
+          path: examen/dist/examen/browser/
           remote_path: ${{ secrets.VPS_PATH }}
           remote_host: ${{ secrets.VPS_HOST }}
           remote_user: ${{ secrets.VPS_USER }}
