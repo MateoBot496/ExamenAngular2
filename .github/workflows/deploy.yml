@@ -10,7 +10,7 @@ jobs:
 
     defaults:
       run:
-        working-directory: examen  # 👈 todos los pasos desde la carpeta examen
+        working-directory: examen  # 👈 desde la carpeta examen
 
     steps:
       - uses: actions/checkout@v4
@@ -21,7 +21,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: npm install  # usa install en vez de ci por si hay problemas de lockfile
+        run: npm install  # npm ci daba errores si no hay package-lock
 
       - name: Build Angular
         run: npm run build -- --configuration production
@@ -32,6 +32,6 @@ jobs:
           host: ${{ secrets.VPS_HOST }}
           username: ${{ secrets.VPS_USER }}
           key: ${{ secrets.VPS_SSH_KEY }}
-          source: "dist/examen/browser/*"   # 👈 ruta correcta desde working-directory
+          source: "dist/examen/*"   # 👈 carpeta correcta, elimina "browser"
           target: ${{ secrets.VPS_PATH }}
-          rm: true  # 👈 borra antes los archivos del target para no acumular
+          rm: true                  # 👈 limpia antes de copiar
