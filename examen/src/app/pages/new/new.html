@@ -1,0 +1,24 @@
+<div class="form">
+  <h1>Añadir  series</h1>
+  <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <label for="name">Nombre:</label>
+    <input id="name" formControlName="name" type="text" />
+    @if (form.get('name')?.invalid && form.get('name')?.touched) {
+      <p class="error">El nombre es obligatorio y debe tener al menos 3 caracteres.</p>
+    }
+
+    <label for="rating">Rating:</label>
+    <input id="rating" formControlName="rating" type="number" />
+    @if (form.get('rating')?.invalid && form.get('rating')?.touched) {
+      <p class="error">El rating es obligatorio y debe ser válido.</p>
+    }
+
+    <label for="channel">Canal:</label>
+    <input id="channel" formControlName="channel" type="text" />
+    @if (form.get('channel')?.invalid && form.get('channel')?.touched) {
+      <p class="error">El canal es obligatorio y debe tener al menos 5 caracteres.</p>
+    }
+
+    <button type="submit" [disabled]="form.invalid">Enviar</button>
+  </form>
+</div>

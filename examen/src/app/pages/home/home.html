@@ -1,0 +1,12 @@
+<div class="list">
+  @for (series of series$ | async ; track series.id) {
+    <div class="user">
+      <h2>{{series.title}}</h2>
+      <p>{{series.channel}}</p>
+      <p>{{series.rating}}</p>
+      <img [src]="series.image" alt="">
+    </div>
+  }@empty {
+    No hay series
+  }
+</div>
